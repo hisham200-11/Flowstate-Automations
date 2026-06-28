@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowState Automations - Business Automation & Chatbots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            background: #ffffff;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0066cc 0%, #00cccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8f9fb 0%, #f0f4f8 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #001f3f;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #555;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+        }
+
+        .cta-secondary {
+            background: white;
+            color: #0066cc;
+            border: 2px solid #0066cc;
+            margin-left: 1rem;
+        }
+
+        .cta-secondary:hover {
+            background: #f8f9fb;
+        }
+
+        /* Section Container */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            color: #001f3f;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: #f8f9fb;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .problem-card h3 {
+            color: #001f3f;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .problem-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Service Section */
+        .services {
+            background: white;
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05) 0%, rgba(0, 204, 204, 0.05) 100%);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-top: 3px solid #0066cc;
+        }
+
+        .service-item h3 {
+            color: #001f3f;
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .feature::before {
+            content: "✓";
+            color: #00cccc;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .feature span {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* Vision Section */
+        .vision {
+            background: linear-gradient(135deg, #001f3f 0%, #003d66 100%);
+            color: white;
+        }
+
+        .vision .section-title {
+            color: white;
+        }
+
+        .vision .section-subtitle {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .vision-item {
+            text-align: center;
+        }
+
+        .vision-item h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+            color: #00cccc;
+        }
+
+        .vision-item p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Why Choose Us */
+        .why-choose {
+            background: white;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-card {
+            padding: 2rem;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.1);
+            border-color: #0066cc;
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            color: #001f3f;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .benefit-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #f8f9fb;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            color: #001f3f;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #001f3f;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Footer */
+        footer {
+            background: #001f3f;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                display: block;
+                margin: 0.5rem auto;
+            }
+
+            .cta-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <a href="#" class="logo">FlowState</a>
+            <ul>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="#why">Why Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>Eliminate Repetitive Work. Automate Your Business.</h1>
+            <p>FlowState Automations helps your business save time, improve response times, and focus on growth through intelligent automation.</p>
+            <a href="#contact" class="cta-button">Get Started</a>
+            <a href="#services" class="cta-button cta-secondary">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <h2 class="section-title">The Problem We Solve</h2>
+        <p class="section-subtitle">Businesses waste time on repetitive customer interactions. We free you up to focus on what matters.</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <h3>⏱️ Wasted Time</h3>
+                <p>Your team answers the same questions repeatedly. That's time not spent growing your business.</p>
+            </div>
+            <div class="problem-card">
+                <h3>📉 Slow Response</h3>
+                <p>Customers expect instant answers 24/7. Manual responses create delays and lost opportunities.</p>
+            </div>
+            <div class="problem-card">
+                <h3>💼 Scattered Workflows</h3>
+                <p>Customer data is spread across multiple places. Lead management becomes a nightmare.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 class="section-title">Our Solution</h2>
+        <p class="section-subtitle">Rule-based Facebook Messenger chatbots that work instantly, reliably, and affordably.</p>
+        
+        <div class="service-item">
+            <h3>Facebook Messenger Chatbots</h3>
+            <p>We build intelligent, rule-based chatbots for your Facebook business page that handle customer conversations 24/7.</p>
+            
+            <div class="features-list">
+                <div class="feature">
+                    <span>Answer FAQs instantly</span>
+                </div>
+                <div class="feature">
+                    <span>Capture customer information</span>
+                </div>
+                <div class="feature">
+                    <span>Guide customers through workflows</span>
+                </div>
+                <div class="feature">
+                    <span>Route to human agents when needed</span>
+                </div>
+                <div class="feature">
+                    <span>Operate around the clock</span>
+                </div>
+                <div class="feature">
+                    <span>No AI needed – fast & reliable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Why This Approach?</h2>
+            <p>Rule-based automation with keyword matching and decision trees is fast, predictable, and cost-effective. No AI hallucinations. No delays. Just instant results.</p>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="vision" id="vision">
+        <h2 class="section-title">Our Vision</h2>
+        <p class="section-subtitle">We're not just a chatbot agency. We're building the complete automation partner for your business.</p>
+        
+        <div class="vision-grid">
+            <div class="vision-item">
+                <h4>🤖 AI Assistants</h4>
+                <p>Intelligent automation for complex workflows</p>
+            </div>
+            <div class="vision-item">
+                <h4>📊 CRM & Lead Management</h4>
+                <p>Centralized customer data and tracking</p>
+            </div>
+            <div class="vision-item">
+                <h4>📧 Email Automation</h4>
+                <p>Smart campaigns and sequences</p>
+            </div>
+            <div class="vision-item">
+                <h4>📅 Appointment Booking</h4>
+                <p>Automated scheduling systems</p>
+            </div>
+            <div class="vision-item">
+                <h4>🔧 Custom Solutions</h4>
+                <p>Tailored to your business needs</p>
+            </div>
+            <div class="vision-item">
+                <h4>🔗 API Integration</h4>
+                <p>Connect all your business tools</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose" id="why">
+        <h2 class="section-title">Why Choose FlowState?</h2>
+        <p class="section-subtitle">We focus on solving your operational problems, not selling flashy features.</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">⚡</div>
+                <h3>Fast & Reliable</h3>
+                <p>Rule-based logic means no delays. Your chatbot responds instantly, every time.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">💰</div>
+                <h3>Affordable</h3>
+                <p>No expensive AI licensing. Straightforward pricing that makes sense for your budget.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🎯</div>
+                <h3>Problem-Focused</h3>
+                <p>We understand your business challenges and build solutions that work, not what's trendy.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🛠️</div>
+                <h3>Easy to Maintain</h3>
+                <p>Simple logic that you can update and adjust. No black-box AI mystery.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📈</div>
+                <h3>Grow with You</h3>
+                <p>Start with a chatbot. Expand to full workflow automation as your needs grow.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🤝</div>
+                <h3>True Partnership</h3>
+                <p>We invest in your success. Your growth is our growth.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <h2 class="section-title">Let's Talk</h2>
+            <p class="section-subtitle">Ready to automate your business? Get in touch with our team.</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p><strong>Email</strong></p>
+                    <p><a href="mailto:hello@flowstateautomations.com">hello@flowstateautomations.com</a></p>
+                    <p style="margin-top: 1.5rem;"><strong>Available for</strong></p>
+                    <p>Consultations, custom projects, and partnership inquiries</p>
+                </div>
+                
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 FlowState Automations. All rights reserved.</p>
+        <p>Automating business workflows for a more efficient tomorrow.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form handling
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you soon.');
+            this.reset();
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-item, .benefit-card, .problem-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

@@ -13,8 +13,13 @@
     <!-- Navigation -->
     <header>
         <nav>
-            <a href="#" class="logo">
-                <img src="img/FSA-logo.png" alt="FlowState Automations">
+            <a href="#" class="logo" aria-label="FlowState Automations home">
+                <svg class="logo-mark" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                    <rect class="bar" x="3" y="14" width="6" height="17" rx="2" fill="#2F80ED"/>
+                    <rect class="bar" x="14" y="8" width="6" height="23" rx="2" fill="#5B9EFF"/>
+                    <rect class="bar" x="25" y="2" width="6" height="29" rx="2" fill="#2F80ED"/>
+                </svg>
+                <span class="logo-word">FlowState<span>Automations</span></span>
             </a>
             <ul>
                 <li><a href="#services">Services</a></li>
@@ -28,7 +33,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content fade-in">
-            <h1>Eliminate Repetitive Work. Automate Your Business.</h1>
+            <span class="eyebrow">Business process automation</span>
+            <h1>Eliminate repetitive work. <em>Automate</em> your business.</h1>
             <p>FlowState Automations helps your business save time, improve response times, and focus on growth through intelligent automation.</p>
             <a href="#contact" class="cta-button">Get Started</a>
             <a href="#services" class="cta-button cta-secondary">Learn More</a>
@@ -40,17 +46,17 @@
         <h2 class="section-title">The Problem We Solve</h2>
         <p class="section-subtitle">Businesses waste time on repetitive customer interactions. We free you up to focus on what matters.</p>
         <div class="problem-grid">
-            <div class="problem-card">
+            <div class="problem-card reveal">
                 <span class="card-mark">01</span>
                 <h3>Wasted Time</h3>
                 <p>Your team answers the same questions repeatedly. That's time not spent growing your business.</p>
             </div>
-            <div class="problem-card">
+            <div class="problem-card reveal">
                 <span class="card-mark">02</span>
                 <h3>Slow Response</h3>
                 <p>Customers expect instant answers 24/7. Manual responses create delays and lost opportunities.</p>
             </div>
-            <div class="problem-card">
+            <div class="problem-card reveal">
                 <span class="card-mark">03</span>
                 <h3>Scattered Workflows</h3>
                 <p>Customer data is spread across multiple places. Lead management becomes a nightmare.</p>
@@ -63,7 +69,7 @@
         <h2 class="section-title">Our Solution</h2>
         <p class="section-subtitle">Rule-based Facebook Messenger chatbots that work instantly, reliably, and affordably.</p>
         
-        <div class="service-item">
+        <div class="service-item reveal">
             <h3>Facebook Messenger Chatbots</h3>
             <p>We build intelligent, rule-based chatbots for your Facebook business page that handle customer conversations 24/7.</p>
             
@@ -101,27 +107,27 @@
         <p class="section-subtitle">We're not just a chatbot agency. We're building the complete automation partner for your business.</p>
         
         <div class="vision-grid">
-            <div class="vision-item">
+            <div class="vision-item reveal">
                 <h4>AI Assistants</h4>
                 <p>Intelligent automation for complex workflows</p>
             </div>
-            <div class="vision-item">
+            <div class="vision-item reveal">
                 <h4>CRM &amp; Lead Management</h4>
                 <p>Centralized customer data and tracking</p>
             </div>
-            <div class="vision-item">
+            <div class="vision-item reveal">
                 <h4>Email Automation</h4>
                 <p>Smart campaigns and sequences</p>
             </div>
-            <div class="vision-item">
+            <div class="vision-item reveal">
                 <h4>Appointment Booking</h4>
                 <p>Automated scheduling systems</p>
             </div>
-            <div class="vision-item">
+            <div class="vision-item reveal">
                 <h4>Custom Solutions</h4>
                 <p>Tailored to your business needs</p>
             </div>
-            <div class="vision-item">
+            <div class="vision-item reveal">
                 <h4>API Integration</h4>
                 <p>Connect all your business tools</p>
             </div>
@@ -134,32 +140,32 @@
         <p class="section-subtitle">We focus on solving your operational problems, not selling flashy features.</p>
         
         <div class="benefits-grid">
-            <div class="benefit-card">
+            <div class="benefit-card reveal">
                 <span class="card-mark">01</span>
                 <h3>Fast &amp; Reliable</h3>
                 <p>Rule-based logic means no delays. Your chatbot responds instantly, every time.</p>
             </div>
-            <div class="benefit-card">
+            <div class="benefit-card reveal">
                 <span class="card-mark">02</span>
                 <h3>Affordable</h3>
                 <p>No expensive AI licensing. Straightforward pricing that makes sense for your budget.</p>
             </div>
-            <div class="benefit-card">
+            <div class="benefit-card reveal">
                 <span class="card-mark">03</span>
                 <h3>Problem-Focused</h3>
                 <p>We understand your business challenges and build solutions that work, not what's trendy.</p>
             </div>
-            <div class="benefit-card">
+            <div class="benefit-card reveal">
                 <span class="card-mark">04</span>
                 <h3>Easy to Maintain</h3>
                 <p>Simple logic that you can update and adjust. No black-box AI mystery.</p>
             </div>
-            <div class="benefit-card">
+            <div class="benefit-card reveal">
                 <span class="card-mark">05</span>
                 <h3>Grow with You</h3>
                 <p>Start with a chatbot. Expand to full workflow automation as your needs grow.</p>
             </div>
-            <div class="benefit-card">
+            <div class="benefit-card reveal">
                 <span class="card-mark">06</span>
                 <h3>True Partnership</h3>
                 <p>We invest in your success. Your growth is our growth.</p>
@@ -229,21 +235,26 @@
             this.reset();
         });
  
-        // Fade in animation on scroll
+        // Reveal on scroll, staggered within each grid
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -60px 0px'
         };
- 
+
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+                    const el = entry.target;
+                    const siblings = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal'));
+                    const index = siblings.indexOf(el);
+                    el.style.transitionDelay = (index * 80) + 'ms';
+                    el.classList.add('in-view');
+                    observer.unobserve(el);
                 }
             });
         }, observerOptions);
- 
-        document.querySelectorAll('.service-item, .benefit-card, .problem-card').forEach(el => {
+
+        document.querySelectorAll('.reveal').forEach(el => {
             observer.observe(el);
         });
     </script>

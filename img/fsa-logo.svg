@@ -1,0 +1,47 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 52" fill="none" class="fsa-logo-svg" role="img" aria-label="FlowState Automations Logo">
+  <defs>
+    <linearGradient id="fsa-blue-grad" x1="4" y1="4" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E40AF" />
+      <stop offset="50%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="fsa-cyan-grad" x1="16" y1="12" x2="44" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#0EA5E9" />
+    </linearGradient>
+    <filter id="fsa-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0284C7" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Flow & Automation F-Mark -->
+  <g class="fsa-mark" filter="url(#fsa-glow)">
+    <path d="M 28 6 C 14 6 6 16 6 27 C 6 38 15 46 23 46 C 30 46 36 40 36 33 C 36 24 26 22 20 22 C 14 22 10 26 10 30 C 10 37 17 44 26 44 C 36 44 46 34 46 22 C 46 11 38 6 28 6 Z" 
+          fill="none" 
+          stroke="url(#fsa-blue-grad)" 
+          stroke-width="4.5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+    
+    <path d="M 22 18 C 30 18 38 21 38 28 C 38 34 32 37 26 37 C 19 37 18 31 22 25 C 25 21 31 19 36 19" 
+          fill="none" 
+          stroke="url(#fsa-cyan-grad)" 
+          stroke-width="3.5" 
+          stroke-linecap="round" />
+
+    <circle cx="36" cy="27" r="2.8" fill="#00E5FF" />
+    <circle cx="28" cy="37" r="2.5" fill="#00E5FF" />
+    <line x1="36" y1="27" x2="28" y2="37" stroke="#00E5FF" stroke-width="1.8" stroke-dasharray="2 2" />
+  </g>
+
+  <!-- FlowState Typography -->
+  <g class="fsa-typography" transform="translate(60, 0)">
+    <text x="0" y="27" font-family="'Outfit', -apple-system, sans-serif" font-size="21" font-weight="800" fill="currentColor" letter-spacing="-0.03em">
+      FlowState
+    </text>
+    <text x="1" y="42" font-family="'Outfit', -apple-system, sans-serif" font-size="9" font-weight="700" fill="#0284C7" letter-spacing="0.28em">
+      AUTOMATIONS
+    </text>
+  </g>
+</svg>
+

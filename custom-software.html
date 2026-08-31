@@ -192,12 +192,25 @@
         <div class="container">
             <div class="section-header">
                 <h2>Interactive Project Scope Estimator</h2>
-                <p>Select the features your business needs to get an instant scope breakdown and budget estimate.</p>
+                <p>Select your company scale and required features to get an instant realistic timeline and budget estimate.</p>
+            </div>
+
+            <!-- Business Scale Selector for Custom Software -->
+            <div class="scale-qualifier-banner">
+                <div class="qualifier-copy">
+                    <h4 id="swQualifierTitle">Showing estimate for: Small Practice / Solo Business (1 - 5 staff)</h4>
+                    <p id="swQualifierSubtitle">Lean custom tools, database sync &amp; automations delivered in 2 to 3 weeks with full verification.</p>
+                </div>
+                <div class="scale-switcher-group" role="tablist" aria-label="Company Scale Selector">
+                    <button type="button" class="scale-pill active" id="swScaleSmall" data-scale="small">Small Practice (1-5)</button>
+                    <button type="button" class="scale-pill" id="swScaleGrowing" data-scale="growing">Growing Team (6-25)</button>
+                    <button type="button" class="scale-pill" id="swScaleEnterprise" data-scale="enterprise">Multi-Branch / Enterprise</button>
+                </div>
             </div>
 
             <div class="estimator-card">
                 <div class="estimator-grid" id="estimatorGrid">
-                    <div class="estimator-option selected" data-cost="35000" data-title="Custom Admin Dashboard">
+                    <div class="estimator-option selected" data-cost="25000" data-title="Custom Admin Dashboard">
                         <div class="option-header">
                             <span class="option-title">Admin Dashboard</span>
                             <span class="option-checkbox">
@@ -207,61 +220,61 @@
                         <p class="option-desc">Private portal to view sales, staff tasks, and daily operations.</p>
                     </div>
 
-                    <div class="estimator-option selected" data-cost="25000" data-title="Multi-App Data Sync">
+                    <div class="estimator-option selected" data-cost="20000" data-title="Multi-App Data Sync">
                         <div class="option-header">
                             <span class="option-title">Database &amp; App Sync</span>
                             <span class="option-checkbox">
                                 <svg class="chk-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             </span>
                         </div>
-                        <p class="option-desc">Connect messaging, POS registers, and databases automatically.</p>
+                        <p class="option-desc">Connect messaging, POS registers, spreadsheets, and databases.</p>
                     </div>
 
-                    <div class="estimator-option" data-cost="20000" data-title="Automated SMS & WhatsApp Alerts">
+                    <div class="estimator-option" data-cost="15000" data-title="Automated SMS & WhatsApp Alerts">
                         <div class="option-header">
                             <span class="option-title">SMS &amp; Chat Alerts</span>
                             <span class="option-checkbox">
                                 <svg class="chk-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             </span>
                         </div>
-                        <p class="option-desc">Auto-send appointment reminders and staff notifications.</p>
+                        <p class="option-desc">Auto-send appointment reminders, invoice alerts, and staff notifications.</p>
                     </div>
 
-                    <div class="estimator-option" data-cost="45000" data-title="Client Login Portal">
+                    <div class="estimator-option" data-cost="30000" data-title="Client Login Portal">
                         <div class="option-header">
                             <span class="option-title">Client Login Portal</span>
                             <span class="option-checkbox">
                                 <svg class="chk-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             </span>
                         </div>
-                        <p class="option-desc">Self-service portal for clients to view records and book slots.</p>
+                        <p class="option-desc">Self-service portal for clients to view records, upload files, and book.</p>
                     </div>
 
-                    <div class="estimator-option" data-cost="25000" data-title="Automated Invoicing Engine">
+                    <div class="estimator-option" data-cost="20000" data-title="Automated Invoicing Engine">
                         <div class="option-header">
                             <span class="option-title">Automated Invoicing</span>
                             <span class="option-checkbox">
                                 <svg class="chk-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             </span>
                         </div>
-                        <p class="option-desc">Auto-create PDF receipts and follow up on pending balances.</p>
+                        <p class="option-desc">Auto-create PDF receipts, compute tax/splits, and follow up balances.</p>
                     </div>
 
-                    <div class="estimator-option" data-cost="30000" data-title="Multi-Branch Routing">
+                    <div class="estimator-option" data-cost="25000" data-title="Multi-Branch Routing & Roles">
                         <div class="option-header">
-                            <span class="option-title">Multi-Branch Routing</span>
+                            <span class="option-title">Multi-Branch &amp; Roles</span>
                             <span class="option-checkbox">
                                 <svg class="chk-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             </span>
                         </div>
-                        <p class="option-desc">Route orders and clients across multiple branch locations.</p>
+                        <p class="option-desc">Granular permissions per branch, role-based access, and centralized reports.</p>
                     </div>
                 </div>
 
                 <div class="estimator-summary-bar">
                     <div class="summary-details">
-                        <h4>Estimated Project Range: <span id="estimatePrice" class="estimate-highlight">₱60,000 – ₱85,000</span></h4>
-                        <p id="estimateTimeline">Estimated Delivery: 2 to 3 weeks • Includes 30-day post-launch warranty</p>
+                        <h4>Estimated Project Range: <span id="estimatePrice" class="estimate-highlight">₱35,000 – ₱49,000</span></h4>
+                        <p id="estimateTimeline">Estimated Delivery: 2 to 3 weeks • Includes Discovery Audit, Prototype &amp; 30-Day Launch Warranty</p>
                     </div>
                     <a href="#contact" class="btn btn-primary" id="useEstimateBtn">
                         <span>Request Custom Blueprint</span>
@@ -350,29 +363,34 @@
                 </div>
 
                 <div class="form-card">
-                    <form class="contact-form" id="softwareForm" novalidate>
+                    <iframe name="fs_sw_iframe" id="fs_sw_iframe" style="display:none;"></iframe>
+                    <form class="contact-form" id="softwareForm" action="https://formsubmit.co/flowstateautom8t@gmail.com" method="POST" target="fs_sw_iframe">
+                        <input type="hidden" name="_subject" value="New FlowState Custom Software Proposal Request">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+
                         <div class="form-group">
                             <label for="swFullName">Your Name</label>
-                            <input type="text" id="swFullName" class="form-control" placeholder="e.g. Maria Santos" required>
+                            <input type="text" id="swFullName" name="Name" class="form-control" placeholder="e.g. Maria Santos" required>
                         </div>
 
                         <div class="form-group">
                             <label for="swEmail">Email Address</label>
-                            <input type="email" id="swEmail" class="form-control" placeholder="maria@mybusiness.com" required>
+                            <input type="email" id="swEmail" name="Email" class="form-control" placeholder="maria@mybusiness.com" required>
                         </div>
 
                         <div class="form-group">
                             <label for="swBizSize">What is your business scale?</label>
-                            <select id="swBizSize" class="form-control">
-                                <option value="Small Business / Solo Pro">Small Business / Solo Practice (1 - 5 staff)</option>
-                                <option value="Growing Company" selected>Growing Company (6 - 25 staff)</option>
-                                <option value="Enterprise / Multi-Branch">Enterprise / Multi-Branch (25+ staff)</option>
+                            <select id="swBizSize" name="CompanyScale" class="form-control">
+                                <option value="Small Practice / Solo Business (1 - 5 staff)">Small Practice / Solo Business (1 - 5 staff)</option>
+                                <option value="Growing Company (6 - 25 staff)">Growing Company (6 - 25 staff)</option>
+                                <option value="Enterprise / Multi-Branch (25+ staff)">Enterprise / Multi-Branch (25+ staff)</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="swProjectDetails">Describe the software or automation you need</label>
-                            <textarea id="swProjectDetails" class="form-control" placeholder="What manual tasks take up too much time? What apps or spreadsheets do you want to connect?" required></textarea>
+                            <textarea id="swProjectDetails" name="ProjectDetails" class="form-control" placeholder="What manual tasks take up too much time? What apps or spreadsheets do you want to connect?" required></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block" id="swSubmitBtn">
@@ -433,33 +451,107 @@
 
     <!-- Client-Side Interactive Scripts -->
     <script>
-        // Interactive Estimator Calculation
+        // Company Scale & Interactive Estimator Calculation
+        let currentScale = 'small';
+        const swScalePills = document.querySelectorAll('.scale-pill');
+        const swQualifierTitle = document.getElementById('swQualifierTitle');
+        const swQualifierSubtitle = document.getElementById('swQualifierSubtitle');
+        const swBizSizeSelect = document.getElementById('swBizSize');
+
         const options = document.querySelectorAll('.estimator-option');
         const priceDisplay = document.getElementById('estimatePrice');
         const timelineDisplay = document.getElementById('estimateTimeline');
         const projectDetailsText = document.getElementById('swProjectDetails');
 
+        const scaleConfigs = {
+            small: {
+                title: 'Showing estimate for: Small Practice / Solo Business (1 - 5 staff)',
+                subtitle: 'Lean custom tools, database sync & automations delivered in 2 to 3 weeks with full verification.',
+                baseMultiplier: 0.8,
+                selectValue: 'Small Practice / Solo Business (1 - 5 staff)',
+                timelineFn: (count) => {
+                    if (count <= 2) return 'Estimated Delivery: 2 to 3 weeks • Includes Discovery Audit, Prototype & 30-Day Warranty';
+                    if (count <= 4) return 'Estimated Delivery: 3 to 4 weeks • Includes Workflow Discovery, Testing & Staff Training';
+                    return 'Estimated Delivery: 4 to 5 weeks • Comprehensive Suite with 30-Day Post-Launch Warranty';
+                }
+            },
+            growing: {
+                title: 'Showing estimate for: Growing Team (6 - 25 staff)',
+                subtitle: 'Multi-user workflows, role permissions & CRM sync delivered in 3 to 5 weeks.',
+                baseMultiplier: 1.25,
+                selectValue: 'Growing Company (6 - 25 staff)',
+                timelineFn: (count) => {
+                    if (count <= 2) return 'Estimated Delivery: 3 to 4 weeks • Includes Multi-User Roles, Integration & 30-Day SLA';
+                    if (count <= 4) return 'Estimated Delivery: 3 to 5 weeks • Includes Database Migration & Operational Testing';
+                    return 'Estimated Delivery: 1 to 2 months (5 to 7 weeks) • Full Multi-Department Custom Build';
+                }
+            },
+            enterprise: {
+                title: 'Showing estimate for: Multi-Branch / Enterprise (25+ staff)',
+                subtitle: 'Multi-location infrastructure, legacy migration & dedicated SLA delivered in 1 to 2 months.',
+                baseMultiplier: 2.2,
+                selectValue: 'Enterprise / Multi-Branch (25+ staff)',
+                timelineFn: (count) => {
+                    if (count <= 2) return 'Estimated Delivery: 4 to 6 weeks • Multi-Branch Architecture & Security Audit';
+                    if (count <= 4) return 'Estimated Delivery: 1 to 2 months (6 to 8 weeks) • High-Availability Enterprise Build';
+                    return 'Estimated Delivery: 2 months (8 to 10 weeks) • Bespoke Enterprise ERP & Dedicated SLA';
+                }
+            }
+        };
+
+        function setSoftwareScale(scale) {
+            currentScale = scale;
+            swScalePills.forEach(p => {
+                if (p.getAttribute('data-scale') === scale) {
+                    p.classList.add('active');
+                } else {
+                    p.classList.remove('active');
+                }
+            });
+
+            const config = scaleConfigs[scale];
+            if (config) {
+                swQualifierTitle.textContent = config.title;
+                swQualifierSubtitle.textContent = config.subtitle;
+                if (swBizSizeSelect) swBizSizeSelect.value = config.selectValue;
+            }
+
+            recalculate();
+        }
+
+        swScalePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                const scale = pill.getAttribute('data-scale');
+                setSoftwareScale(scale);
+            });
+        });
+
         function recalculate() {
             let total = 0;
             let selectedTitles = [];
+            let selectedCount = 0;
 
             options.forEach(opt => {
                 if (opt.classList.contains('selected')) {
                     total += parseInt(opt.getAttribute('data-cost'), 10);
                     selectedTitles.push(opt.getAttribute('data-title'));
+                    selectedCount++;
                 }
             });
 
-            if (total === 0) {
-                priceDisplay.textContent = '₱15,000 – ₱25,000 (Starter)';
-                timelineDisplay.textContent = 'Estimated Delivery: 1 week • Basic integration';
+            const config = scaleConfigs[currentScale] || scaleConfigs.small;
+            const scaledTotal = total * config.baseMultiplier;
+
+            if (selectedCount === 0) {
+                const baseLow = Math.round(25000 * config.baseMultiplier / 1000) * 1000;
+                const baseHigh = Math.round(35000 * config.baseMultiplier / 1000) * 1000;
+                priceDisplay.textContent = '₱' + baseLow.toLocaleString() + ' – ₱' + baseHigh.toLocaleString() + ' (Base Setup)';
+                timelineDisplay.textContent = config.timelineFn(1);
             } else {
-                const low = Math.round(total * 0.9);
-                const high = Math.round(total * 1.25);
+                const low = Math.round((scaledTotal * 0.9) / 1000) * 1000;
+                const high = Math.round((scaledTotal * 1.2) / 1000) * 1000;
                 priceDisplay.textContent = '₱' + low.toLocaleString() + ' – ₱' + high.toLocaleString();
-                
-                let weeks = total > 80000 ? '3 to 5 weeks' : total > 40000 ? '2 to 3 weeks' : '1 to 2 weeks';
-                timelineDisplay.textContent = 'Estimated Delivery: ' + weeks + ' • Includes 30-day post-launch warranty';
+                timelineDisplay.textContent = config.timelineFn(selectedCount);
             }
 
             if (selectedTitles.length > 0 && (!projectDetailsText.value || projectDetailsText.value.startsWith('Selected Features:'))) {
@@ -486,18 +578,18 @@
         // Initialize calculation
         recalculate();
 
-        // Form Handling
+        // Form Handling with FormSubmit Native POST
         const form = document.getElementById('softwareForm');
         const submitBtn = document.getElementById('swSubmitBtn');
         const toast = document.getElementById('toastNotification');
 
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
             const name = document.getElementById('swFullName').value.trim();
             const email = document.getElementById('swEmail').value.trim();
             const msg = document.getElementById('swProjectDetails').value.trim();
 
             if (!name || !email || !msg) {
+                e.preventDefault();
                 alert('Please fill out all required fields.');
                 return;
             }
@@ -506,15 +598,15 @@
             submitBtn.innerHTML = '<span>Submitting Proposal Request...</span>';
 
             setTimeout(() => {
+                form.reset();
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>Request Custom Proposal</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
-                form.reset();
 
                 toast.classList.add('show');
                 setTimeout(() => {
                     toast.classList.remove('show');
-                }, 4500);
-            }, 600);
+                }, 5500);
+            }, 1200);
         });
 
         // Mobile Navigation Toggle

@@ -1,9 +1,10 @@
 /* ==========================================================================
-   FlowState Automations - Modern Design System (Impeccable Craft Standard)
+   FlowState Automations - Deep Slate Dark Design System
+   Impeccable Craft Standard | Business Plan v3 Alignment
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Design Tokens & Variables
+   1. Design Tokens & Variables (Soothing Dark Palette)
    -------------------------------------------------------------------------- */
 :root {
     /* Typography */
@@ -11,47 +12,45 @@
     --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
-    /* Palette: Slate & Midnight Canvas */
-    --canvas: #FFFFFF;
-    --canvas-subtle: #F8FAFC;
-    --canvas-muted: #F1F5F9;
-    --canvas-card: #FFFFFF;
-    --canvas-dark: #0B132B;
-    --canvas-dark-card: #141E3C;
-    --canvas-dark-border: rgba(255, 255, 255, 0.08);
+    /* Palette: Deep Slate & Midnight Canvas */
+    --canvas: #0A0F1D;
+    --canvas-subtle: #0F172A;
+    --canvas-surface: #111B30;
+    --canvas-card: #131D35;
+    --canvas-card-hover: #172340;
+    --canvas-card-highlight: #1B2B4E;
 
-    /* Ink / Text Colors */
-    --ink-primary: #0F172A;
-    --ink-secondary: #334155;
-    --ink-muted: #64748B;
-    --ink-light: #F8FAFC;
-    --ink-light-muted: #94A3B8;
+    /* Ink / Text Colors (Soft, High-Contrast & Zero Glare) */
+    --ink-primary: #F8FAFC;
+    --ink-secondary: #CBD5E1;
+    --ink-muted: #94A3B8;
+    --ink-subtle: #64748B;
 
-    /* Brand Accents: Electric Cobalt & Flow Cyan */
+    /* Brand Accents: Electric Cyan & Deep Cobalt Glow */
     --primary: #2563EB;
     --primary-hover: #1D4ED8;
-    --primary-light: #EFF6FF;
-    --accent-cyan: #06B6D4;
-    --accent-cyan-light: #ECFEFF;
-    --accent-glow: rgba(37, 99, 235, 0.18);
-    --accent-cyan-glow: rgba(6, 182, 212, 0.22);
+    --primary-glow: rgba(37, 99, 235, 0.25);
     
-    /* Semantic Colors */
+    --accent-cyan: #38BDF8;
+    --accent-cyan-glow: rgba(56, 189, 248, 0.2);
+    --accent-teal: #2DD4BF;
+
+    /* Semantic Status */
     --success: #10B981;
-    --success-bg: #ECFDF5;
+    --success-bg: rgba(16, 185, 129, 0.12);
     --warning: #F59E0B;
 
-    /* Borders & Dividers */
-    --border-subtle: #E2E8F0;
-    --border-card: #CBD5E1;
-    --border-focus: #3B82F6;
+    /* Borders & Glass Dividers */
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-card: rgba(255, 255, 255, 0.12);
+    --border-highlight: rgba(56, 189, 248, 0.35);
 
-    /* Depth / Multi-layer Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-    --shadow-glow: 0 0 25px -3px var(--accent-glow);
+    /* Multi-layered Depth & Soft Shadowing */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.45);
+    --shadow-xl: 0 20px 40px -8px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 35px -5px var(--accent-cyan-glow);
 
     /* Radii */
     --radius-sm: 6px;
@@ -62,11 +61,11 @@
 
     /* Layout Constraints */
     --max-width: 1200px;
-    --header-height: 76px;
+    --header-height: 80px;
 }
 
 /* --------------------------------------------------------------------------
-   2. Reset & Browser Surfaces
+   2. Reset & Browser Surface Styling
    -------------------------------------------------------------------------- */
 *, *::before, *::after {
     margin: 0;
@@ -77,11 +76,12 @@
 html {
     scroll-behavior: smooth;
     text-size-adjust: 100%;
+    background-color: var(--canvas);
 }
 
 body {
     font-family: var(--font-body);
-    color: var(--ink-primary);
+    color: var(--ink-secondary);
     background-color: var(--canvas);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -91,12 +91,12 @@ body {
 
 /* Themed Browser Surfaces */
 ::selection {
-    background-color: #DBEAFE;
-    color: #1E40AF;
+    background-color: #1E40AF;
+    color: #FFFFFF;
 }
 
 :focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--accent-cyan);
     outline-offset: 2px;
 }
 
@@ -105,15 +105,15 @@ body {
     width: 10px;
 }
 ::-webkit-scrollbar-track {
-    background: var(--canvas-subtle);
+    background: var(--canvas);
 }
 ::-webkit-scrollbar-thumb {
-    background: #CBD5E1;
+    background: #1E293B;
     border-radius: var(--radius-pill);
-    border: 2px solid var(--canvas-subtle);
+    border: 2px solid var(--canvas);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #94A3B8;
+    background: #334155;
 }
 
 /* --------------------------------------------------------------------------
@@ -129,12 +129,12 @@ h1, h2, h3, h4, .font-display {
 }
 
 h1 {
-    font-size: clamp(2.5rem, 5.5vw, 4rem);
+    font-size: clamp(2.5rem, 5.2vw, 3.85rem);
     letter-spacing: -0.035em;
 }
 
 h2 {
-    font-size: clamp(2rem, 3.8vw, 2.75rem);
+    font-size: clamp(2rem, 3.6vw, 2.65rem);
     letter-spacing: -0.03em;
 }
 
@@ -157,7 +157,7 @@ p {
 
 .lead {
     font-size: clamp(1.1rem, 2vw, 1.25rem);
-    color: var(--ink-secondary);
+    color: var(--ink-muted);
     line-height: 1.6;
     max-width: 62ch;
 }
@@ -165,7 +165,7 @@ p {
 /* Section Header Structure */
 .section-header {
     text-align: center;
-    max-width: 720px;
+    max-width: 760px;
     margin: 0 auto 3.5rem auto;
 }
 
@@ -179,32 +179,34 @@ p {
 }
 
 /* --------------------------------------------------------------------------
-   4. Layout & Containers
+   4. Layout & Containers (Fluid Responsive & Safe Areas)
    -------------------------------------------------------------------------- */
 .container {
     width: 100%;
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 2rem;
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
 }
 
 section {
-    padding: 6rem 0;
+    padding: clamp(3.5rem, 6.5vw, 6.5rem) 0;
     position: relative;
 }
 
 /* --------------------------------------------------------------------------
-   5. Header & Navigation (Fixed Logo System)
+   5. Header & Navigation (Authentic Original Logo & Safe Area)
    -------------------------------------------------------------------------- */
 header.site-header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(10, 15, 29, 0.9);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-subtle);
     transition: all 0.25s ease;
+    padding-top: env(safe-area-inset-top);
 }
 
 .navbar {
@@ -217,18 +219,21 @@ header.site-header {
 .brand-logo {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
     text-decoration: none;
-    transition: transform 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .brand-logo:hover {
-    transform: scale(1.02);
+    opacity: 0.92;
+    transform: scale(1.01);
 }
 
 .brand-logo img {
-    height: 38px;
+    height: 42px;
     width: auto;
     display: block;
+    object-fit: contain;
 }
 
 .nav-menu {
@@ -240,7 +245,7 @@ header.site-header {
 
 .nav-link {
     text-decoration: none;
-    color: var(--ink-secondary);
+    color: var(--ink-muted);
     font-weight: 500;
     font-size: 0.95rem;
     padding: 0.5rem 0.25rem;
@@ -249,7 +254,7 @@ header.site-header {
 }
 
 .nav-link:hover {
-    color: var(--primary);
+    color: var(--ink-primary);
 }
 
 .nav-actions {
@@ -279,15 +284,16 @@ header.site-header {
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     color: #FFFFFF;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
+    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.55);
 }
 
 .btn-primary:active {
@@ -295,17 +301,29 @@ header.site-header {
 }
 
 .btn-secondary {
-    background: #FFFFFF;
+    background: var(--canvas-card);
     color: var(--ink-primary);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--border-card);
     box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
-    background: var(--canvas-subtle);
-    border-color: #CBD5E1;
+    background: var(--canvas-card-hover);
+    border-color: rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+}
+
+.btn-cyan {
+    background: linear-gradient(135deg, #0284C7 0%, #06B6D4 100%);
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(6, 182, 212, 0.35);
+}
+
+.btn-cyan:hover {
+    background: linear-gradient(135deg, #0EA5E9 0%, #0891B2 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.5);
 }
 
 .btn-sm {
@@ -315,12 +333,12 @@ header.site-header {
 }
 
 /* --------------------------------------------------------------------------
-   7. Hero Section & Live Automation Demo Anchor
+   7. Hero Section & Clinic Interactive Demo Anchor
    -------------------------------------------------------------------------- */
 .hero-section {
-    padding: 5rem 0 6rem 0;
-    background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.07) 0%, transparent 60%),
-                linear-gradient(180deg, #FFFFFF 0%, var(--canvas-subtle) 100%);
+    padding: 5.5rem 0 6.5rem 0;
+    background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.12) 0%, transparent 65%),
+                linear-gradient(180deg, var(--canvas) 0%, var(--canvas-subtle) 100%);
     border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -341,9 +359,9 @@ header.site-header {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: #EFF6FF;
-    border: 1px solid #BFDBFE;
-    color: #1E40AF;
+    background: rgba(37, 99, 235, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38BDF8;
     font-size: 0.85rem;
     font-weight: 600;
     padding: 0.35rem 0.85rem;
@@ -373,18 +391,21 @@ header.site-header {
 }
 
 .hero-metrics {
-    display: flex;
-    gap: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: clamp(1rem, 2vw, 2.5rem);
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-subtle);
 }
 
 .metric-item strong {
     display: block;
-    font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-family: var(--font-body);
+    font-size: clamp(1.3rem, 2.5vw, 1.6rem);
     color: var(--ink-primary);
     font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
 }
 
 .metric-item span {
@@ -392,23 +413,27 @@ header.site-header {
     color: var(--ink-muted);
 }
 
-/* Live Chatbot Simulation Visual */
+/* Live Clinic Chat Simulation Card */
 .chat-simulator-card {
-    background: #FFFFFF;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
+    background: var(--canvas-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     overflow: hidden;
     position: relative;
+    width: 100%;
 }
 
 .simulator-header {
-    background: #0B132B;
+    background: #0B1120;
     color: #FFFFFF;
     padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
 }
 
 .simulator-brand {
@@ -417,47 +442,44 @@ header.site-header {
     gap: 0.75rem;
 }
 
-.sim-avatar {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, #2563EB, #06B6D4);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 0.85rem;
+.sim-avatar-img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
 }
 
 .sim-title {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     font-weight: 600;
     color: #FFFFFF;
 }
 
 .sim-status {
-    font-size: 0.75rem;
+    font-size: 0.76rem;
     color: #38BDF8;
     display: block;
 }
 
 .sim-body {
-    background: #F8FAFC;
-    padding: 1.25rem;
+    background: #0D152A;
+    padding: clamp(1rem, 2vw, 1.35rem);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    min-height: 290px;
+    min-height: 280px;
+    overflow-x: hidden;
 }
 
 .chat-bubble {
-    max-width: 85%;
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
-    line-height: 1.45;
+    max-width: min(100%, 88%);
+    padding: 0.85rem 1.1rem;
+    font-size: clamp(0.85rem, 1.8vw, 0.92rem);
+    line-height: 1.48;
     border-radius: var(--radius-md);
     position: relative;
+    word-break: break-word;
     animation: fadeInBubble 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -475,27 +497,28 @@ header.site-header {
 
 .bubble-bot {
     align-self: flex-start;
-    background: #FFFFFF;
+    background: #172340;
     color: var(--ink-primary);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom-left-radius: 2px;
     box-shadow: var(--shadow-sm);
 }
 
 .bubble-tag {
     display: inline-block;
-    background: #ECFDF5;
-    color: #065F46;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 0.2rem 0.5rem;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34D399;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
     border-radius: var(--radius-sm);
-    margin-top: 0.4rem;
+    margin-top: 0.45rem;
 }
 
 .simulator-footer {
-    padding: 0.75rem 1.25rem;
-    background: #FFFFFF;
+    padding: 0.85rem 1.25rem;
+    background: #0B1120;
     border-top: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
@@ -503,264 +526,248 @@ header.site-header {
 }
 
 .simulator-footer span {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     color: var(--ink-muted);
 }
 
 /* --------------------------------------------------------------------------
-   8. The Problem Section (AI Slop Removed)
+   8. Technical Moat Section (Business Plan v3 Specs)
    -------------------------------------------------------------------------- */
-.problem-section {
+.moat-section {
     background: var(--canvas-subtle);
 }
 
-.problem-grid {
+.moat-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
-.problem-card {
+.moat-card {
     background: var(--canvas-card);
-    padding: 2.25rem;
-    border-radius: var(--radius-lg);
     border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
     box-shadow: var(--shadow-md);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    gap: 0.85rem;
 }
 
-.problem-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    border-color: #CBD5E1;
+@media (hover: hover) {
+    .moat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+        border-color: rgba(56, 189, 248, 0.35);
+    }
 }
 
-.problem-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    background: #FEE2E2;
-    color: #DC2626;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.problem-card h3 {
-    color: var(--ink-primary);
-    font-size: 1.3rem;
-}
-
-.problem-card p {
-    color: var(--ink-muted);
-    font-size: 0.98rem;
-}
-
-/* --------------------------------------------------------------------------
-   9. Solutions & Features Section
-   -------------------------------------------------------------------------- */
-.solutions-section {
-    background: var(--canvas);
-}
-
-.solution-hero-card {
-    background: linear-gradient(135deg, #F0F7FF 0%, #E0F2FE 100%);
-    border: 1px solid #BFDBFE;
-    border-radius: var(--radius-xl);
-    padding: 3.5rem;
-    margin-bottom: 3.5rem;
-}
-
-.solution-content {
-    max-width: 800px;
-}
-
-.solution-content h3 {
-    font-size: 1.85rem;
-    margin-bottom: 1rem;
-    color: #0F172A;
-}
-
-.feature-pill-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    margin-top: 2rem;
-}
-
-.feature-pill-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    box-shadow: var(--shadow-sm);
-}
-
-.feature-pill-item svg {
-    color: var(--primary);
-    flex-shrink: 0;
-    margin-top: 2px;
-}
-
-.feature-pill-item strong {
-    display: block;
-    font-size: 0.95rem;
-    color: var(--ink-primary);
-    margin-bottom: 0.15rem;
-}
-
-.feature-pill-item span {
-    font-size: 0.86rem;
-    color: var(--ink-muted);
-    line-height: 1.4;
-}
-
-/* Why Deterministic Banner */
-.guarantee-banner {
-    background: #0B132B;
-    border-radius: var(--radius-xl);
-    padding: 3rem;
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    box-shadow: var(--shadow-xl);
-}
-
-.guarantee-text h3 {
-    color: #FFFFFF;
-    font-size: 1.6rem;
-    margin-bottom: 0.75rem;
-}
-
-.guarantee-text p {
-    color: #94A3B8;
-    max-width: 60ch;
-}
-
-/* --------------------------------------------------------------------------
-   10. Vision Section (Dark Canvas)
-   -------------------------------------------------------------------------- */
-.vision-section {
-    background-color: var(--canvas-dark);
-    color: #FFFFFF;
-    position: relative;
-    overflow: hidden;
-}
-
-.vision-section .section-header h2 {
-    color: #FFFFFF;
-}
-
-.vision-section .section-header p {
-    color: #94A3B8;
-}
-
-.vision-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-}
-
-.vision-card {
-    background: var(--canvas-dark-card);
-    border: 1px solid var(--canvas-dark-border);
-    border-radius: var(--radius-lg);
-    padding: 2.25rem;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.vision-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(56, 189, 248, 0.4);
-    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.5), 0 0 20px -2px rgba(56, 189, 248, 0.15);
-}
-
-.vision-icon {
-    width: 44px;
-    height: 44px;
+.moat-icon {
+    width: 46px;
+    height: 46px;
     border-radius: var(--radius-md);
     background: rgba(56, 189, 248, 0.12);
     color: #38BDF8;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.25rem;
-}
-
-.vision-card h4 {
-    color: #FFFFFF;
-    font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    flex-shrink: 0;
 }
 
-.vision-card p {
-    color: #94A3B8;
-    font-size: 0.92rem;
+.moat-card h3 {
+    font-size: 1.25rem;
+    color: var(--ink-primary);
+}
+
+.moat-card p {
+    color: var(--ink-muted);
+    font-size: 0.95rem;
     line-height: 1.55;
 }
 
 /* --------------------------------------------------------------------------
-   11. Why Choose FlowState Section
+   9. Target Industry Verticals
    -------------------------------------------------------------------------- */
-.why-section {
-    background: var(--canvas-subtle);
+.verticals-section {
+    background: var(--canvas);
 }
 
-.benefits-grid {
+.verticals-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
-.benefit-card {
-    background: var(--canvas-card);
+.vertical-card {
+    background: var(--canvas-surface);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: 2.25rem;
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
     transition: all 0.25s ease;
 }
 
-.benefit-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: #CBD5E1;
+.vertical-card.featured {
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: var(--shadow-glow);
+    background: linear-gradient(180deg, #131E3B 0%, #0F172A 100%);
 }
 
-.benefit-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
-    background: var(--primary-light);
-    color: var(--primary);
+.vertical-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #38BDF8;
+    background: rgba(56, 189, 248, 0.12);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-pill);
+    width: fit-content;
+}
+
+.vertical-card h3 {
+    font-size: 1.4rem;
+}
+
+.vertical-card ul {
+    list-style: none;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.25rem;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
-.benefit-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.6rem;
-    color: var(--ink-primary);
-}
-
-.benefit-card p {
+.vertical-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.92rem;
     color: var(--ink-muted);
-    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.vertical-card li svg {
+    color: #10B981;
+    flex-shrink: 0;
+    margin-top: 3px;
 }
 
 /* --------------------------------------------------------------------------
-   12. Contact & Lead Capture
+   10. Transparent Pricing Packages (From Business Plan v3)
+   -------------------------------------------------------------------------- */
+.pricing-section {
+    background: var(--canvas-subtle);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.pricing-card {
+    background: var(--canvas-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 2.5vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.pricing-card.popular {
+    border-color: #38BDF8;
+    box-shadow: 0 0 35px -5px rgba(56, 189, 248, 0.25);
+    background: linear-gradient(180deg, #162444 0%, #111A30 100%);
+    transform: scale(1.03);
+    z-index: 10;
+}
+
+.popular-ribbon {
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    background: linear-gradient(135deg, #0284C7, #06B6D4);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+}
+
+.pricing-header h3 {
+    font-size: 1.45rem;
+    margin-bottom: 0.5rem;
+}
+
+.pricing-header p {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    min-height: 42px;
+}
+
+.pricing-amount {
+    margin: 1.5rem 0;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.pricing-setup {
+    display: block;
+    font-family: var(--font-body);
+    font-size: clamp(1.45rem, 3.5vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-primary);
+}
+
+.pricing-retainer {
+    display: block;
+    font-size: 0.9rem;
+    color: #38BDF8;
+    margin-top: 0.25rem;
+}
+
+.pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    line-height: 1.45;
+}
+
+.pricing-features li svg {
+    color: #38BDF8;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.pricing-card .btn {
+    margin-top: auto;
+}
+
+/* --------------------------------------------------------------------------
+   11. Contact & Lead Capture
    -------------------------------------------------------------------------- */
 .contact-section {
     background: var(--canvas);
@@ -779,10 +786,6 @@ header.site-header {
     gap: 2rem;
 }
 
-.contact-info-panel h3 {
-    font-size: 1.75rem;
-}
-
 .contact-channel {
     display: flex;
     align-items: flex-start;
@@ -790,11 +793,11 @@ header.site-header {
 }
 
 .contact-icon {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: var(--radius-md);
-    background: var(--primary-light);
-    color: var(--primary);
+    background: rgba(37, 99, 235, 0.15);
+    color: #38BDF8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -808,7 +811,7 @@ header.site-header {
 }
 
 .contact-channel a {
-    color: var(--primary);
+    color: #38BDF8;
     text-decoration: none;
     font-weight: 600;
 }
@@ -819,9 +822,9 @@ header.site-header {
 
 .form-card {
     background: var(--canvas-card);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--border-card);
     border-radius: var(--radius-xl);
-    padding: 2.75rem;
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
     box-shadow: var(--shadow-lg);
 }
 
@@ -841,19 +844,24 @@ header.site-header {
     width: 100%;
     padding: 0.85rem 1rem;
     font-family: var(--font-body);
-    font-size: 0.98rem;
+    font-size: 1rem;
+    min-height: 48px;
     color: var(--ink-primary);
-    background: var(--canvas-subtle);
+    background: #0B1120;
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
 .form-control:focus {
-    background: #FFFFFF;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    background: #0E162B;
+    border-color: #38BDF8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
     outline: none;
+}
+
+select.form-control {
+    cursor: pointer;
 }
 
 textarea.form-control {
@@ -861,12 +869,20 @@ textarea.form-control {
     min-height: 120px;
 }
 
-/* Toast Feedback */
+/* Process Section Custom 4-Grid */
+#process .moat-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Toast Notification */
 .toast-notification {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: #0B132B;
+    max-width: calc(100vw - 2rem);
+    background: #111A30;
+    border: 1px solid rgba(56, 189, 248, 0.35);
     color: #FFFFFF;
     padding: 1rem 1.5rem;
     border-radius: var(--radius-md);
@@ -892,13 +908,13 @@ textarea.form-control {
 }
 
 /* --------------------------------------------------------------------------
-   13. Footer
+   12. Footer (Original Brand Art & Safe Area)
    -------------------------------------------------------------------------- */
 footer.site-footer {
-    background: var(--canvas-dark);
+    background: #070B16;
     color: #FFFFFF;
-    padding: 4.5rem 0 2.5rem 0;
-    border-top: 1px solid var(--canvas-dark-border);
+    padding: 4.5rem 0 max(2.5rem, env(safe-area-inset-bottom)) 0;
+    border-top: 1px solid var(--border-subtle);
 }
 
 .footer-top {
@@ -906,7 +922,7 @@ footer.site-footer {
     justify-content: space-between;
     align-items: flex-start;
     padding-bottom: 3rem;
-    border-bottom: 1px solid var(--canvas-dark-border);
+    border-bottom: 1px solid var(--border-subtle);
     gap: 3rem;
 }
 
@@ -914,12 +930,13 @@ footer.site-footer {
     max-width: 380px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .footer-brand img {
-    height: 36px;
+    height: 40px;
     width: auto;
+    object-fit: contain;
 }
 
 .footer-brand p {
@@ -967,18 +984,297 @@ footer.site-footer {
     color: #64748B;
 }
 
-/* --------------------------------------------------------------------------
-   14. Responsive Breakpoints (Adapt)
-   -------------------------------------------------------------------------- */
+.sim-badge {
+    font-size: 0.75rem;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    color: #38BDF8;
+    font-weight: 600;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.channel-desc {
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+}
+
+.footer-subtext {
+    color: var(--ink-subtle);
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Business Scale Qualifier & Switcher
+   ========================================================================== */
+.scale-qualifier-banner {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.qualifier-copy h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink-main);
+    margin-bottom: 0.25rem;
+}
+
+.qualifier-copy p {
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+    margin: 0;
+}
+
+.scale-switcher-group {
+    display: inline-flex;
+    background: rgba(15, 23, 42, 0.8);
+    padding: 0.25rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border-subtle);
+}
+
+.scale-pill {
+    background: transparent;
+    border: none;
+    color: var(--ink-muted);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.scale-pill:hover {
+    color: var(--ink-main);
+}
+
+.scale-pill.active {
+    background: var(--brand-primary);
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+/* ==========================================================================
+   Interactive Scope & Estimator Widget (Custom Software Page)
+   ========================================================================== */
+.estimator-card {
+    background: var(--canvas-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin: 3rem 0;
+    box-shadow: var(--shadow-card);
+}
+
+.estimator-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0 2rem 0;
+}
+
+.estimator-option {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.estimator-option:hover {
+    border-color: var(--brand-accent);
+    background: rgba(56, 189, 248, 0.05);
+}
+
+.estimator-option.selected {
+    border-color: var(--brand-accent);
+    background: rgba(56, 189, 248, 0.1);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+}
+
+.option-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.option-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink-main);
+}
+
+.option-checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid var(--border-focus);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: #38BDF8;
+}
+
+.estimator-option.selected .option-checkbox {
+    background: #38BDF8;
+    color: #0A0F1D;
+}
+
+.option-desc {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+}
+
+.estimator-summary-bar {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.summary-details h4 {
+    font-size: 1.1rem;
+    color: var(--ink-main);
+    margin-bottom: 0.25rem;
+}
+
+.summary-details p {
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+    margin: 0;
+}
+
+/* Nav Active Link Indicator */
+.nav-link.active {
+    color: var(--brand-accent);
+}
+
+/* ==========================================================================
+   Craft Floor Polish & SVG Icon Integration
+   ========================================================================== */
+.status-dot-sm {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--brand-success);
+    border-radius: 50%;
+    margin-right: 0.35rem;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.process-step-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--brand-accent);
+    letter-spacing: -0.02em;
+}
+
+.estimate-highlight {
+    color: #38BDF8;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+}
+
+.icon-inline {
+    display: inline-block;
+    vertical-align: -0.15em;
+    margin-right: 0.35rem;
+}
+
+.chk-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-toggle {
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--ink-primary);
+    padding: 0.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.nav-toggle:hover {
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* ==========================================================================
+   Comprehensive Media Queries & Responsive Design System
+   ========================================================================== */
+
+/* 1. Large Tablets & Small Laptops (max-width: 1024px) */
 @media (max-width: 1024px) {
     .hero-grid {
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: 3.5rem;
     }
 
-    .problem-grid,
-    .vision-grid,
-    .benefits-grid {
+    .moat-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .verticals-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .pricing-card.popular {
+        transform: none;
+    }
+
+    .estimator-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -988,42 +1284,131 @@ footer.site-footer {
     }
 }
 
+/* 2. Tablet Portrait & Mobile Navigation Drawer (max-width: 900px) */
+@media (max-width: 900px) {
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .nav-cta-desktop {
+        display: none;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 29, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-subtle);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem 2rem 2rem 2rem;
+        gap: 0.5rem;
+        transform: translateY(-120%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+        z-index: 999;
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-menu .nav-link {
+        display: block;
+        padding: 0.85rem 0.5rem;
+        font-size: 1.05rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-menu .nav-link.active {
+        color: var(--brand-accent);
+        border-bottom-color: rgba(56, 189, 248, 0.3);
+    }
+}
+
+/* 3. Mobile Devices & Small Tablets (max-width: 768px) */
 @media (max-width: 768px) {
     section {
-        padding: 4rem 0;
+        padding: 4.5rem 0;
     }
 
     .container {
         padding: 0 1.25rem;
     }
 
-    .nav-menu {
-        display: none; /* Can be toggled with mobile menu */
-    }
-
-    .problem-grid,
-    .vision-grid,
-    .benefits-grid {
+    .moat-grid,
+    .verticals-grid,
+    .pricing-grid,
+    .estimator-grid {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
     }
 
-    .feature-pill-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .solution-hero-card {
+    .pricing-card {
         padding: 2rem 1.5rem;
     }
 
-    .guarantee-banner {
+    .vertical-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .scale-qualifier-banner {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 2rem 1.5rem;
+        align-items: stretch;
+        text-align: center;
+        padding: 1.25rem;
+    }
+
+    .scale-switcher-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .scale-pill {
+        flex: 1;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .estimator-card {
+        padding: 1.5rem 1.25rem;
+        margin: 2rem 0;
+    }
+
+    .estimator-summary-bar {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 1.25rem;
+        padding: 1.25rem;
+    }
+
+    .estimator-summary-bar .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form-card {
+        padding: 1.75rem 1.25rem;
     }
 
     .footer-top {
         flex-direction: column;
-        gap: 2rem;
+        gap: 2.5rem;
     }
 
     .footer-nav {
@@ -1038,11 +1423,102 @@ footer.site-footer {
     }
 }
 
-/* --------------------------------------------------------------------------
-   15. Accessibility & Reduced Motion
-   -------------------------------------------------------------------------- */
+/* 4. Small Mobile Phones (max-width: 540px) */
+@media (max-width: 540px) {
+    section {
+        padding: 3.5rem 0;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .brand-logo img {
+        height: 34px;
+    }
+
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.85rem;
+    }
+
+    .hero-cta-group .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-metrics {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.25rem 0;
+    }
+
+    .metric-item strong {
+        font-size: 1.4rem;
+    }
+
+    .chat-simulator-card {
+        padding: 1.15rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .chat-bubble {
+        max-width: 95%;
+        font-size: 0.88rem;
+        padding: 0.85rem 1rem;
+    }
+
+    .scale-switcher-group {
+        flex-direction: column;
+        border-radius: var(--radius-md);
+        gap: 0.35rem;
+        padding: 0.35rem;
+    }
+
+    .scale-pill {
+        width: 100%;
+        border-radius: var(--radius-sm);
+        padding: 0.65rem;
+        font-size: 0.85rem;
+    }
+
+    .pricing-setup {
+        font-size: 1.55rem;
+    }
+
+    .pricing-retainer {
+        font-size: 0.85rem;
+    }
+
+    .form-control {
+        min-height: 48px;
+        font-size: 16px; /* Prevents auto-zoom in iOS Safari */
+    }
+
+    .btn {
+        min-height: 48px;
+        padding: 0.85rem 1.25rem;
+    }
+
+    .toast-notification {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        transform: translateY(150%);
+        font-size: 0.85rem;
+    }
+
+    .toast-notification.show {
+        transform: translateY(0);
+    }
+}
+
+/* 5. Reduced Motion Accessibility */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;

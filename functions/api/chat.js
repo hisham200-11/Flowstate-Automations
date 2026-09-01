@@ -119,26 +119,66 @@ export async function onRequestPost(context) {
       body: JSON.stringify(makePayload(selectedModel)),
     });
 
-    // Fallback if the selected model returns 404 or error
-    if (!groqResponse.ok && (groqResponse.status === 404 || groqResponse.status === 400)) {
-      console.warn(`Model ${selectedModel} failed (${groqResponse.status}), retrying with llama-3.1-8b-instant...`);
-      groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(makePayload('llama-3.1-8b-instant')),
-      });
+    // If initial model request fails with 404 or 400, dynamically query /v1/models to find available models for this key
+    if (!groqResponse.ok) {
+      const initialErr = await groqResponse.text();
+      console.warn(`Initial model ${selectedModel} failed (${groqResponse.status}): ${initialErr}`);
+
+      try {
+        const modelsRes = await fetch('https://api.groq.com/openai/v1/models', {
+          headers: { 'Authorization': `Bearer ${apiKey}` },
+        });
+
+        if (modelsRes.ok) {
+          const modelsData = await modelsRes.json();
+          const availableIds = (modelsData.data || []).map((m) => m.id);
+          console.log('Available models for key:', availableIds);
+
+          // Find best match: llama-3.3, llama-3.1, llama3, mixtral, or first available
+          const dynamicModel =
+            availableIds.find((id) => id.includes('llama-3.3-70b') || id.includes('llama-3.1-70b') || id.includes('llama-3.1-8b') || id.includes('mixtral') || id.includes('gemma')) ||
+            availableIds[0];
+
+          if (dynamicModel && dynamicModel !== selectedModel) {
+            console.log(`Retrying with dynamically discovered model: ${dynamicModel}`);
+            groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(makePayload(dynamicModel)),
+            });
+          }
+        } else {
+          const authErr = await modelsRes.text();
+          console.error(`Groq Auth Check failed (${modelsRes.status}): ${authErr}`);
+          if (env.DB && waitUntil) {
+            waitUntil(
+              logErrorToD1(
+                env.DB,
+                sessionId,
+                `Groq Key Auth Error ${modelsRes.status}: ${authErr} [Key: ${apiKey.slice(0, 8)}...${apiKey.slice(-4)}]`
+              )
+            );
+          }
+        }
+      } catch (err) {
+        console.error('Dynamic model lookup error:', err);
+      }
     }
 
     if (!groqResponse.ok) {
       const errorText = await groqResponse.text();
-      console.error('Groq API Error:', groqResponse.status, errorText);
+      console.error('Groq API Final Error:', groqResponse.status, errorText);
 
       if (env.DB && waitUntil) {
         waitUntil(
-          logErrorToD1(env.DB, sessionId, `Groq API ${groqResponse.status}: ${errorText}`)
+          logErrorToD1(
+            env.DB,
+            sessionId,
+            `Groq API ${groqResponse.status}: ${errorText} [Key: ${apiKey.slice(0, 8)}...${apiKey.slice(-4)}]`
+          )
         );
       }
 

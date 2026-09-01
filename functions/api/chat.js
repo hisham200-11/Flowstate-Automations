@@ -98,14 +98,14 @@ export async function onRequestPost(context) {
     const makePayload = (modelName) => ({
       model: modelName,
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: SYSTEM_PROMPT + '\nCRITICAL: Do NOT output <think> tags or internal reasoning steps. Output ONLY the direct final conversational reply to the visitor.' },
         ...messages.map((m) => ({
           role: m.role === 'assistant' ? 'assistant' : 'user',
           content: String(m.content || ''),
         })),
       ],
       temperature: 0.6,
-      max_tokens: 350,
+      max_tokens: 800,
       top_p: 0.9,
     });
 
@@ -134,10 +134,18 @@ export async function onRequestPost(context) {
           const availableIds = (modelsData.data || []).map((m) => m.id);
           console.log('Available models for key:', availableIds);
 
-          // Find best match: llama-3.3, llama-3.1, llama3, mixtral, or first available
-          const dynamicModel =
-            availableIds.find((id) => id.includes('llama-3.3-70b') || id.includes('llama-3.1-70b') || id.includes('llama-3.1-8b') || id.includes('mixtral') || id.includes('gemma')) ||
-            availableIds[0];
+          // Find best direct fast model (prefer non-reasoning direct chat models first)
+          const nonReasoningModel = availableIds.find(
+            (id) =>
+              id.includes('llama-3.3-70b-versatile') ||
+              id.includes('llama-3.1-8b-instant') ||
+              id.includes('llama3-70b-8192') ||
+              id.includes('llama3-8b-8192') ||
+              id.includes('mixtral-8x7b-32768') ||
+              id.includes('gemma2-9b-it')
+          );
+
+          const dynamicModel = nonReasoningModel || availableIds[0];
 
           if (dynamicModel && dynamicModel !== selectedModel) {
             console.log(`Retrying with dynamically discovered model: ${dynamicModel}`);
@@ -192,8 +200,12 @@ export async function onRequestPost(context) {
     }
 
     const groqData = await groqResponse.json();
-    const rawReply = groqData.choices?.[0]?.message?.content || "Thanks for your message! How else can FlowState help your business today?";
+    let rawReply = groqData.choices?.[0]?.message?.content || "Thanks for your message! How else can FlowState help your business today?";
     const responseTimeMs = Date.now() - startTime;
+
+    // Clean internal thinking tags (from DeepSeek R1 or reasoning models)
+    rawReply = rawReply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+    rawReply = rawReply.replace(/^<think>[\s\S]*$/gi, '').trim();
 
     // Detect and extract LEAD_CAPTURED tag
     let cleanReply = rawReply;

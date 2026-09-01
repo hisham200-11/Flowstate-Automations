@@ -147,7 +147,7 @@
         const widget = document.querySelector('.fsa-chat-widget');
         const launcher = document.querySelector('.fsa-chat-launcher');
         if (widget) widget.classList.add('active');
-        if (launcher) launcher.style.display = 'none';
+        if (launcher) launcher.classList.add('hidden');
 
         localStorage.setItem(STORAGE_AUTO_OPEN_KEY, 'true');
         scrollToBottom();
@@ -155,7 +155,7 @@
         setTimeout(() => {
             const input = document.getElementById('fsaChatInput');
             if (input && window.innerWidth > 480) input.focus();
-        }, 150);
+        }, 180);
     }
 
     function closeChat() {
@@ -163,7 +163,7 @@
         const widget = document.querySelector('.fsa-chat-widget');
         const launcher = document.querySelector('.fsa-chat-launcher');
         if (widget) widget.classList.remove('active');
-        if (launcher) launcher.style.display = 'flex';
+        if (launcher) launcher.classList.remove('hidden');
     }
 
     function resetChat() {

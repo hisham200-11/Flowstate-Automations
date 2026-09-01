@@ -2,29 +2,22 @@
  * FlowState Automations - Cloudflare Pages Function
  * Endpoint: POST /api/chat
  *
- * Powered by Groq (llama-3.3-70b-versatile)
- * Persists message & lead logs to Cloudflare D1
- * Dispatches instant email alerts via Resend to flowstateautom8t@gmail.com
+ * Aligned with chatbot-webhook architecture:
+ * - Groq JSON Object Mode (response_format: { type: 'json_object' })
+ * - Model: openai/gpt-oss-120b with fallback to llama-3.3-70b-versatile
+ * - Cloudflare D1 Logging
+ * - Resend Email Notifications to flowstateautom8t@gmail.com
  */
 
 const DEFAULT_NOTIFICATION_EMAIL = 'flowstateautom8t@gmail.com';
-const DEFAULT_GROQ_MODEL = 'llama-3.3-70b-versatile';
-
-// Whitelisted chat models known to work reliably on Groq
-const TRUSTED_CHAT_MODELS = [
-  'llama-3.3-70b-versatile',
-  'llama-3.1-8b-instant',
-  'llama3-70b-8192',
-  'llama3-8b-8192',
-  'mixtral-8x7b-32768',
-  'gemma2-9b-it'
-];
+const PRIMARY_MODEL = 'openai/gpt-oss-120b';
+const FALLBACK_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'mixtral-8x7b-32768'];
 
 const SYSTEM_PROMPT = `You are the interactive live assistant for FlowState Automations (founded by Hisham).
 Your job is to be living proof of our core claim: sub-2-second, intelligent, conversational automation that turns website visitors & social media inquirers into paying clients.
 
 CORE IDENTITY & TONE:
-- Sharp, confident, friendly, and helpful. You sound like a knowledgeable consultant, NOT a boring robot.
+- Sharp, confident, friendly, and helpful. You sound like a knowledgeable consultant, NOT a robot.
 - Crisp and concise: 2 to 4 sentences maximum per reply. Keep conversations snappy and interactive.
 - Language Matching: Automatically detect and match the visitor's language. If they speak English, reply in crisp English. If they speak Tagalog or Taglish, reply in natural, authentic conversational Taglish/Filipino.
 
@@ -46,16 +39,22 @@ CONVERSATION FLOW & OBJECTIVES:
 5. Guide them toward sharing BOTH their Name and Contact Info (Email, WhatsApp, or Phone number) so Hisham can build their custom live demo.
 
 STRICT LEAD CAPTURE RULE:
-Only emit the LEAD_CAPTURED tag when the visitor has explicitly provided BOTH:
-1. Their Name (or first name)
-2. A real contact method (Email address, Phone number, or WhatsApp number).
+- Only set "is_lead_captured" to true when the visitor has provided BOTH a valid Name AND real Contact Info (Email, Phone number, or WhatsApp).
+- If they give only a name, ask for their email/phone to send the live demo.
+- If they give only an email/phone, ask what name to address the demo to.
+- When BOTH are present, set "is_lead_captured": true and warmly confirm that Hisham will prepare their demo.
 
-- If they give a name without contact info, warmly ask for their best WhatsApp, phone, or email.
-- If they give an email/phone without a name, ask what name to address the demo to.
-- When BOTH Name AND real Contact are present, warmly confirm (e.g. "Got it, [Name]! I've sent your details to Hisham. He'll have your custom demo preview ready shortly.") and append this exact tag on a new line at the very bottom:
-LEAD_CAPTURED:{"name":"[Visitor Name]","contact":"[Phone/Email/WhatsApp]","business":"[Business Name or Unknown]","interest":"[Chatbot / Custom Software / General]","summary":"[1-sentence summary]"}
-
-CRITICAL: Do NOT mention or print the LEAD_CAPTURED tag in your visible message text. Only append it at the very bottom on its own line. Do NOT output <think> tags.`;
+OUTPUT FORMAT:
+You MUST ALWAYS respond with a valid JSON object matching this exact schema:
+{
+  "reply_text": "Your 2-4 sentence conversational reply to the visitor",
+  "visitor_name": "Visitor name if provided, else null",
+  "visitor_contact": "Phone/Email/WhatsApp if provided, else null",
+  "business_name": "Business name if mentioned, else null",
+  "interest": "Chatbot / Custom Software / General",
+  "summary": "1-sentence summary of inquiry",
+  "is_lead_captured": true or false
+}`;
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -108,24 +107,21 @@ export async function onRequestPost(context) {
       );
     }
 
-    const selectedModel = env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
+    const targetModel = env.GROQ_MODEL || PRIMARY_MODEL;
 
-    // Prepare message payload for Groq OpenAI-compatible endpoint
+    // Build payload with JSON Object mode
     const makePayload = (modelName) => ({
       model: modelName,
       messages: [
-        {
-          role: 'system',
-          content: SYSTEM_PROMPT + '\nCRITICAL: Do NOT output <think> tags or internal reasoning steps. Output ONLY the direct final conversational reply to the visitor.'
-        },
+        { role: 'system', content: SYSTEM_PROMPT },
         ...messages.map((m) => ({
           role: m.role === 'assistant' ? 'assistant' : 'user',
           content: String(m.content || ''),
         })),
       ],
-      temperature: 0.6,
-      max_tokens: 450,
-      top_p: 0.9,
+      response_format: { type: 'json_object' },
+      temperature: 0.7,
+      max_tokens: 1024,
     });
 
     const startTime = Date.now();
@@ -135,40 +131,28 @@ export async function onRequestPost(context) {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(makePayload(selectedModel)),
+      body: JSON.stringify(makePayload(targetModel)),
     });
 
-    // If initial model request fails with 404 or 400, dynamically find another trusted model
+    // Fallback through trusted models if initial model fails
     if (!groqResponse.ok) {
       const initialErr = await groqResponse.text();
-      console.warn(`Initial model ${selectedModel} failed (${groqResponse.status}): ${initialErr}`);
+      console.warn(`Primary model ${targetModel} failed (${groqResponse.status}): ${initialErr}`);
 
-      try {
-        const modelsRes = await fetch('https://api.groq.com/openai/v1/models', {
-          headers: { 'Authorization': `Bearer ${apiKey}` },
+      for (const fallbackModel of FALLBACK_MODELS) {
+        if (fallbackModel === targetModel) continue;
+        console.log(`Retrying with fallback model: ${fallbackModel}`);
+
+        groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(makePayload(fallbackModel)),
         });
 
-        if (modelsRes.ok) {
-          const modelsData = await modelsRes.json();
-          const availableIds = (modelsData.data || []).map((m) => m.id);
-
-          // Find the first trusted chat model that is available
-          const dynamicModel = TRUSTED_CHAT_MODELS.find((m) => availableIds.includes(m)) || 'llama-3.1-8b-instant';
-
-          if (dynamicModel && dynamicModel !== selectedModel) {
-            console.log(`Retrying with trusted chat model: ${dynamicModel}`);
-            groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(makePayload(dynamicModel)),
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Dynamic model lookup error:', err);
+        if (groqResponse.ok) break;
       }
     }
 
@@ -196,42 +180,38 @@ export async function onRequestPost(context) {
     }
 
     const groqData = await groqResponse.json();
-    let rawReply = groqData.choices?.[0]?.message?.content || "Thanks for your message! How else can FlowState help your business today?";
+    const rawContent = groqData.choices?.[0]?.message?.content || '{}';
     const responseTimeMs = Date.now() - startTime;
 
-    // Clean internal thinking tags (from DeepSeek R1 or reasoning models)
-    rawReply = rawReply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-    rawReply = rawReply.replace(/^<think>[\s\S]*$/gi, '').trim();
+    let parsedResult = {};
+    try {
+      parsedResult = JSON.parse(rawContent);
+    } catch (e) {
+      console.warn('Failed to parse JSON response, using raw content:', rawContent);
+      parsedResult = { reply_text: rawContent };
+    }
 
-    // Detect and extract LEAD_CAPTURED tag
-    let cleanReply = rawReply;
+    const cleanReply = parsedResult.reply_text || "Thanks for your inquiry! How can FlowState help your business today?";
+
+    // Validate lead details
     let leadCaptured = false;
     let leadData = null;
 
-    const leadRegex = /LEAD_CAPTURED:\s*(\{.*\})/s;
-    const match = rawReply.match(leadRegex);
+    const nameVal = String(parsedResult.visitor_name || '').trim();
+    const contactVal = String(parsedResult.visitor_contact || '').trim();
 
-    if (match && match[1]) {
-      try {
-        const parsed = JSON.parse(match[1].trim());
-        cleanReply = rawReply.replace(leadRegex, '').trim();
+    const isInvalidName = !nameVal || ['null', 'unknown', 'none', 'n/a', 'anonymous', 'visitor'].includes(nameVal.toLowerCase());
+    const isInvalidContact = !contactVal || contactVal.length < 5 || ['null', 'unknown', 'none', 'n/a'].includes(contactVal.toLowerCase());
 
-        // Strict validation: BOTH a valid name AND real contact info required
-        const nameVal = String(parsed.name || '').trim();
-        const contactVal = String(parsed.contact || '').trim();
-
-        const isInvalidName = !nameVal || ['unknown', 'none', 'n/a', 'anonymous', 'visitor'].includes(nameVal.toLowerCase());
-        const isInvalidContact = !contactVal || contactVal.length < 5 || ['unknown', 'none', 'n/a'].includes(contactVal.toLowerCase());
-
-        if (!isInvalidName && !isInvalidContact) {
-          leadData = parsed;
-          leadCaptured = true;
-        } else {
-          console.log('Ignored incomplete lead tag:', parsed);
-        }
-      } catch (err) {
-        console.warn('Failed to parse lead captured JSON:', err);
-      }
+    if (parsedResult.is_lead_captured && !isInvalidName && !isInvalidContact) {
+      leadCaptured = true;
+      leadData = {
+        name: nameVal,
+        contact: contactVal,
+        business: parsedResult.business_name || 'Not specified',
+        interest: parsedResult.interest || 'Chatbot',
+        summary: parsedResult.summary || 'Lead captured via website chat.',
+      };
     }
 
     // Background asynchronous actions (D1 logging + Resend email dispatch)

@@ -345,11 +345,6 @@
             messages.push(botMsg);
             saveMessages();
             appendMessageUI('bot', botReply, true);
-
-            // Optional visual confirmation if lead was captured
-            if (data.leadCaptured) {
-                showLeadCapturedBanner();
-            }
         } catch (err) {
             hideTypingIndicator();
             console.error('Chat error:', err);
@@ -360,27 +355,6 @@
             if (sendBtn) sendBtn.disabled = false;
             if (input && window.innerWidth > 480) input.focus();
         }
-    }
-
-    function showLeadCapturedBanner() {
-        const container = document.getElementById('fsaChatMessages');
-        if (!container) return;
-
-        const banner = document.createElement('div');
-        banner.style.cssText = `
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #6EE7B7;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            text-align: center;
-            margin: 4px 0;
-            animation: fsaMessageFadeIn 0.3s ease;
-        `;
-        banner.innerHTML = '✨ <strong>Lead Captured!</strong> Notification dispatched to Hisham.';
-        container.appendChild(banner);
-        scrollToBottom();
     }
 
     // Initialize once DOM is ready

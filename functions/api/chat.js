@@ -8,14 +8,24 @@
  */
 
 const DEFAULT_NOTIFICATION_EMAIL = 'flowstateautom8t@gmail.com';
-const DEFAULT_GROQ_MODEL = 'llama-3.1-70b-versatile';
+const DEFAULT_GROQ_MODEL = 'llama-3.3-70b-versatile';
 
-const SYSTEM_PROMPT = `You are the interactive live assistant for FlowState Automations (built by Hisham).
+// Whitelisted chat models known to work reliably on Groq
+const TRUSTED_CHAT_MODELS = [
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant',
+  'llama3-70b-8192',
+  'llama3-8b-8192',
+  'mixtral-8x7b-32768',
+  'gemma2-9b-it'
+];
+
+const SYSTEM_PROMPT = `You are the interactive live assistant for FlowState Automations (founded by Hisham).
 Your job is to be living proof of our core claim: sub-2-second, intelligent, conversational automation that turns website visitors & social media inquirers into paying clients.
 
 CORE IDENTITY & TONE:
-- Sharp, confident, friendly, and helpful. You sound like a savvy tech founder/consultant, NOT a boring generic AI.
-- Crisp and concise: 2 to 4 sentences maximum per reply. Keep the conversation snappy and interactive.
+- Sharp, confident, friendly, and helpful. You sound like a knowledgeable consultant, NOT a boring robot.
+- Crisp and concise: 2 to 4 sentences maximum per reply. Keep conversations snappy and interactive.
 - Language Matching: Automatically detect and match the visitor's language. If they speak English, reply in crisp English. If they speak Tagalog or Taglish, reply in natural, authentic conversational Taglish/Filipino.
 
 WHAT FLOWSTATE AUTOMATIONS BUILDS:
@@ -30,16 +40,22 @@ WHAT FLOWSTATE AUTOMATIONS BUILDS:
 
 CONVERSATION FLOW & OBJECTIVES:
 1. Acknowledge their question immediately with enthusiasm and proof of speed.
-2. Ask about their business (e.g. "What kind of business are you running, and are you running Facebook/IG ads?").
-3. Address questions about pricing honestly: "Pricing is tiered based on monthly conversation volume and integrations, but we always start with a free, risk-free live prototype so you can test it on your actual page first."
-4. Guide them toward sharing their name and contact info (Email or WhatsApp/Phone) so Hisham can prepare their custom live prototype.
+2. Explain how our automation solves their problem (e.g. for Facebook ads: replying instantly in Messenger, collecting phone numbers to Google Sheets, and booking appointments 24/7).
+3. Ask for their business niche or current setup.
+4. Address pricing honestly: "Pricing is tiered based on monthly conversation volume, but we always start with a free, risk-free live prototype so you can test it on your actual page first."
+5. Guide them toward sharing BOTH their Name and Contact Info (Email, WhatsApp, or Phone number) so Hisham can build their custom live demo.
 
-LEAD CAPTURE INSTRUCTION:
-When the visitor provides their contact details (such as email, phone number, or WhatsApp), acknowledge it warmly (e.g., "Awesome! I've sent this directly to Hisham. He'll have your custom demo preview ready shortly.").
-Then, at the VERY END of your response on a new line, output this exact machine-readable JSON tag:
-LEAD_CAPTURED:{"name":"[Visitor Name if given or Unknown]","contact":"[Phone/Email/WhatsApp]","business":"[Business Name if mentioned or Unknown]","interest":"[What they need: Chatbot / Custom Software / General]","summary":"[1-sentence summary of what they discussed]"}
+STRICT LEAD CAPTURE RULE:
+Only emit the LEAD_CAPTURED tag when the visitor has explicitly provided BOTH:
+1. Their Name (or first name)
+2. A real contact method (Email address, Phone number, or WhatsApp number).
 
-Do NOT mention the LEAD_CAPTURED tag in your message text. Only append it at the very bottom.`;
+- If they give a name without contact info, warmly ask for their best WhatsApp, phone, or email.
+- If they give an email/phone without a name, ask what name to address the demo to.
+- When BOTH Name AND real Contact are present, warmly confirm (e.g. "Got it, [Name]! I've sent your details to Hisham. He'll have your custom demo preview ready shortly.") and append this exact tag on a new line at the very bottom:
+LEAD_CAPTURED:{"name":"[Visitor Name]","contact":"[Phone/Email/WhatsApp]","business":"[Business Name or Unknown]","interest":"[Chatbot / Custom Software / General]","summary":"[1-sentence summary]"}
+
+CRITICAL: Do NOT mention or print the LEAD_CAPTURED tag in your visible message text. Only append it at the very bottom on its own line. Do NOT output <think> tags.`;
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -98,14 +114,17 @@ export async function onRequestPost(context) {
     const makePayload = (modelName) => ({
       model: modelName,
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT + '\nCRITICAL: Do NOT output <think> tags or internal reasoning steps. Output ONLY the direct final conversational reply to the visitor.' },
+        {
+          role: 'system',
+          content: SYSTEM_PROMPT + '\nCRITICAL: Do NOT output <think> tags or internal reasoning steps. Output ONLY the direct final conversational reply to the visitor.'
+        },
         ...messages.map((m) => ({
           role: m.role === 'assistant' ? 'assistant' : 'user',
           content: String(m.content || ''),
         })),
       ],
       temperature: 0.6,
-      max_tokens: 800,
+      max_tokens: 450,
       top_p: 0.9,
     });
 
@@ -119,7 +138,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify(makePayload(selectedModel)),
     });
 
-    // If initial model request fails with 404 or 400, dynamically query /v1/models to find available models for this key
+    // If initial model request fails with 404 or 400, dynamically find another trusted model
     if (!groqResponse.ok) {
       const initialErr = await groqResponse.text();
       console.warn(`Initial model ${selectedModel} failed (${groqResponse.status}): ${initialErr}`);
@@ -132,23 +151,12 @@ export async function onRequestPost(context) {
         if (modelsRes.ok) {
           const modelsData = await modelsRes.json();
           const availableIds = (modelsData.data || []).map((m) => m.id);
-          console.log('Available models for key:', availableIds);
 
-          // Find best direct fast model (prefer non-reasoning direct chat models first)
-          const nonReasoningModel = availableIds.find(
-            (id) =>
-              id.includes('llama-3.3-70b-versatile') ||
-              id.includes('llama-3.1-8b-instant') ||
-              id.includes('llama3-70b-8192') ||
-              id.includes('llama3-8b-8192') ||
-              id.includes('mixtral-8x7b-32768') ||
-              id.includes('gemma2-9b-it')
-          );
-
-          const dynamicModel = nonReasoningModel || availableIds[0];
+          // Find the first trusted chat model that is available
+          const dynamicModel = TRUSTED_CHAT_MODELS.find((m) => availableIds.includes(m)) || 'llama-3.1-8b-instant';
 
           if (dynamicModel && dynamicModel !== selectedModel) {
-            console.log(`Retrying with dynamically discovered model: ${dynamicModel}`);
+            console.log(`Retrying with trusted chat model: ${dynamicModel}`);
             groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
               method: 'POST',
               headers: {
@@ -157,18 +165,6 @@ export async function onRequestPost(context) {
               },
               body: JSON.stringify(makePayload(dynamicModel)),
             });
-          }
-        } else {
-          const authErr = await modelsRes.text();
-          console.error(`Groq Auth Check failed (${modelsRes.status}): ${authErr}`);
-          if (env.DB && waitUntil) {
-            waitUntil(
-              logErrorToD1(
-                env.DB,
-                sessionId,
-                `Groq Key Auth Error ${modelsRes.status}: ${authErr} [Key: ${apiKey.slice(0, 8)}...${apiKey.slice(-4)}]`
-              )
-            );
           }
         }
       } catch (err) {
@@ -217,9 +213,22 @@ export async function onRequestPost(context) {
 
     if (match && match[1]) {
       try {
-        leadData = JSON.parse(match[1].trim());
-        leadCaptured = true;
+        const parsed = JSON.parse(match[1].trim());
         cleanReply = rawReply.replace(leadRegex, '').trim();
+
+        // Strict validation: BOTH a valid name AND real contact info required
+        const nameVal = String(parsed.name || '').trim();
+        const contactVal = String(parsed.contact || '').trim();
+
+        const isInvalidName = !nameVal || ['unknown', 'none', 'n/a', 'anonymous', 'visitor'].includes(nameVal.toLowerCase());
+        const isInvalidContact = !contactVal || contactVal.length < 5 || ['unknown', 'none', 'n/a'].includes(contactVal.toLowerCase());
+
+        if (!isInvalidName && !isInvalidContact) {
+          leadData = parsed;
+          leadCaptured = true;
+        } else {
+          console.log('Ignored incomplete lead tag:', parsed);
+        }
       } catch (err) {
         console.warn('Failed to parse lead captured JSON:', err);
       }
@@ -236,7 +245,7 @@ export async function onRequestPost(context) {
         );
       }
 
-      // 2. Process captured lead
+      // 2. Process strictly validated lead
       if (leadCaptured && leadData) {
         if (env.DB) {
           backgroundTasks.push(saveLeadToD1(env.DB, sessionId, leadData));

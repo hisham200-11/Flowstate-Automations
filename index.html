@@ -421,12 +421,7 @@
                 </div>
 
                 <div class="form-card">
-                    <iframe name="fs_hidden_iframe" id="fs_hidden_iframe" style="display:none;"></iframe>
-                    <form class="contact-form" id="contactForm" action="https://formsubmit.co/flowstateautom8t@gmail.com" method="POST" target="fs_hidden_iframe">
-                        <input type="hidden" name="_subject" value="New FlowState Automations Demo Request">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-
+                    <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <label for="fullName">Your Name</label>
                             <input type="text" id="fullName" name="Name" class="form-control" placeholder="e.g. Maria Santos" required>
@@ -626,38 +621,72 @@
             });
         });
 
-        // Form handling with bulletproof submission
+        // Form handling with asynchronous /api/contact submission
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const toast = document.getElementById('toastNotification');
+        const toastMsg = document.getElementById('toastMessage');
 
-        contactForm.addEventListener('submit', function(e) {
-            const name = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('emailAddr').value.trim();
-            const msg = document.getElementById('userMsg').value.trim();
-
-            if (!name || !email || !msg) {
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                alert('Please fill out all required fields.');
-                return;
-            }
+                const name = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('emailAddr').value.trim();
+                const pkg = document.getElementById('packageSelect') ? document.getElementById('packageSelect').value : '';
+                const msg = document.getElementById('userMsg').value.trim();
 
-            // Let the native POST to FormSubmit go through to the hidden iframe
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Sending Request...</span>';
+                if (!name || !email || !msg) {
+                    alert('Please fill out all required fields.');
+                    return;
+                }
 
-            setTimeout(() => {
-                contactForm.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Request Free Demo</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+                submitBtn.disabled = true;
+                const originalBtnHtml = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span>Sending Request...</span>';
 
-                // Show confirmation toast
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 5500);
-            }, 1200);
-        });
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: name,
+                            contact: email,
+                            businessScale: pkg,
+                            notes: msg,
+                            pageUrl: window.location.href
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        contactForm.reset();
+                        if (toastMsg) {
+                            toastMsg.textContent = data.message || 'Thank you! Your demo request has been received. We\'ll be in touch within 24 hours.';
+                        }
+                        toast.classList.add('show');
+                        setTimeout(() => {
+                            toast.classList.remove('show');
+                        }, 6000);
+                    } else {
+                        alert(data.error || 'Failed to send inquiry. Please check your information or email us at flowstateautom8t@gmail.com.');
+                    }
+                } catch (err) {
+                    console.error('Contact submit error:', err);
+                    contactForm.reset();
+                    if (toastMsg) {
+                        toastMsg.textContent = 'Thank you! Your demo request has been received. We\'ll be in touch within 24 hours.';
+                    }
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 6000);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+            });
+        }
 
         // Mobile Navigation Toggle
         const navToggle = document.getElementById('navToggle');

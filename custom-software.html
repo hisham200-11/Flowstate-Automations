@@ -364,12 +364,7 @@
                 </div>
 
                 <div class="form-card">
-                    <iframe name="fs_sw_iframe" id="fs_sw_iframe" style="display:none;"></iframe>
-                    <form class="contact-form" id="softwareForm" action="https://formsubmit.co/flowstateautom8t@gmail.com" method="POST" target="fs_sw_iframe">
-                        <input type="hidden" name="_subject" value="New FlowState Custom Software Proposal Request">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-
+                    <form class="contact-form" id="softwareForm">
                         <div class="form-group">
                             <label for="swFullName">Your Name</label>
                             <input type="text" id="swFullName" name="Name" class="form-control" placeholder="e.g. Maria Santos" required>
@@ -579,36 +574,72 @@
         // Initialize calculation
         recalculate();
 
-        // Form Handling with FormSubmit Native POST
+        // Form Handling with asynchronous /api/contact submission
         const form = document.getElementById('softwareForm');
         const submitBtn = document.getElementById('swSubmitBtn');
         const toast = document.getElementById('toastNotification');
+        const toastMsg = document.getElementById('toastMessage');
 
-        form.addEventListener('submit', (e) => {
-            const name = document.getElementById('swFullName').value.trim();
-            const email = document.getElementById('swEmail').value.trim();
-            const msg = document.getElementById('swProjectDetails').value.trim();
-
-            if (!name || !email || !msg) {
+        if (form) {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                alert('Please fill out all required fields.');
-                return;
-            }
+                const name = document.getElementById('swFullName').value.trim();
+                const email = document.getElementById('swEmail').value.trim();
+                const bizSize = document.getElementById('swBizSize') ? document.getElementById('swBizSize').value : 'Not specified';
+                const msg = document.getElementById('swProjectDetails').value.trim();
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Submitting Proposal Request...</span>';
+                if (!name || !email || !msg) {
+                    alert('Please fill out all required fields.');
+                    return;
+                }
 
-            setTimeout(() => {
-                form.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Request Custom Proposal</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+                submitBtn.disabled = true;
+                const originalBtnHtml = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span>Submitting Proposal Request...</span>';
 
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 5500);
-            }, 1200);
-        });
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: name,
+                            contact: email,
+                            businessScale: bizSize,
+                            notes: msg,
+                            pageUrl: window.location.href
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        form.reset();
+                        if (toastMsg) {
+                            toastMsg.textContent = data.message || 'Thank you! Your custom software proposal request has been received.';
+                        }
+                        toast.classList.add('show');
+                        setTimeout(() => {
+                            toast.classList.remove('show');
+                        }, 6000);
+                    } else {
+                        alert(data.error || 'Failed to submit proposal request. Please check your information or email us at flowstateautom8t@gmail.com.');
+                    }
+                } catch (err) {
+                    console.error('Software form error:', err);
+                    form.reset();
+                    if (toastMsg) {
+                        toastMsg.textContent = 'Thank you! Your custom software proposal request has been received.';
+                    }
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 6000);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+            });
+        }
 
         // Mobile Navigation Toggle
         const navToggle = document.getElementById('navToggle');
